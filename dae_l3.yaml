@@ -1,0 +1,43 @@
+!obj:pylearn2.train.Train {
+    dataset: &train !obj:pylearn2.datasets.transformer_dataset.TransformerDataset {
+        raw: !obj:pylearn2.datasets.csv_dataset.CSVDataset {
+            path: 'Seperate action RLDataBlk noRw.csv', #'RLData.csv',
+            task: 'regression',
+            expect_labels: False,
+            expect_headers: False,
+            delimiter: ',',
+            start: 0,
+            stop: %(train_stop)i
+        },
+        transformer: !obj:pylearn2.blocks.StackedBlocks {
+            layers: [
+                !pkl: "%(save_path)s/dae_l1.pkl",
+                !pkl: "%(save_path)s/dae_l2.pkl"
+                ]
+        }
+    },
+
+    model: !obj:pylearn2.models.autoencoder.Autoencoder { #.DenoisingAutoencoder {
+        nvis : %(nvis)i,
+        nhid : %(nhid)i,
+        irange : 0.05,
+        #corruptor: !obj:pylearn2.corruption.BinomialCorruptor {
+        #    corruption_level: .3,
+        #},
+        act_enc: "linear",
+        act_dec: null, #"tanh",    # Linear activation on the decoder side.
+    },
+
+    algorithm: !obj:pylearn2.training_algorithms.sgd.SGD {
+        learning_rate : 1e-3,
+        batch_size : %(batch_size)i,
+        monitoring_batches : %(monitoring_batches)i,
+        monitoring_dataset : *train,
+        cost : !obj:pylearn2.costs.autoencoder.MeanSquaredReconstructionError {},
+        termination_criterion : !obj:pylearn2.termination_criteria.EpochCounter {
+            max_epochs: %(max_epochs)i,
+        },
+    },
+    save_path: "%(save_path)s/dae_l3.pkl",
+    save_freq: 1
+}

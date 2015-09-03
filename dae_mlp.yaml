@@ -1,0 +1,67 @@
+!obj:pylearn2.train.Train {
+    dataset: &train !obj:pylearn2.datasets.csv_dataset.CSVDataset {
+        path: 'Seperate action RLDataBlk noRw.csv',
+        task: 'regression',
+        expect_labels: False,
+        expect_headers: False,
+        delimiter: ',',
+        start: 0,
+        stop:  %(train_stop)i
+    },
+    model: !obj:pylearn2.models.mlp.MLP {
+        batch_size: %(batch_size)i,
+        layers: [
+                 !obj:pylearn2.models.mlp.PretrainedLayer {
+                     layer_name: 'h1',
+                     layer_content: !pkl: "./dae_l1.pkl"
+                 },
+                 !obj:pylearn2.models.mlp.PretrainedLayer {
+                     layer_name: 'h2',
+                     layer_content: !pkl: "./dae_l2.pkl"
+                 },
+                #!obj:pylearn2.models.mlp.PretrainedLayer {
+                #     layer_name: 'h3',
+                #     layer_content: !pkl: "./dae_l3.pkl"
+                # },
+                #!obj:pylearn2.models.mlp.PretrainedTransposedLayer {
+                #     layer_name: 'h4',
+                #     layer_content: !pkl: "./dae_l3.pkl",
+                # },
+                 !obj:pylearn2.models.mlp.PretrainedTransposedLayer {
+                     layer_name: 'h5',
+                     layer_content: !pkl: "./dae_l2.pkl",
+                 },
+                 !obj:pylearn2.models.mlp.PretrainedTransposedLayer {
+                     layer_name: 'h6',
+                     layer_content: !pkl: "./dae_l1.pkl",
+                 }
+                ],
+        target_source: 'features',
+        nvis: 8
+    },
+    algorithm: !obj:pylearn2.training_algorithms.sgd.SGD {
+        learning_rate: .05,
+        learning_rule: !obj:pylearn2.training_algorithms.learning_rule.Momentum {
+            init_momentum: .5,
+        },
+        monitoring_dataset: *train,
+        cost: !obj:pylearn2.costs.mlp.MeanSquaredReconstructionError {},
+        termination_criterion: !obj:pylearn2.termination_criteria.EpochCounter {
+            max_epochs: 50
+        },
+        update_callbacks: !obj:pylearn2.training_algorithms.sgd.ExponentialDecay {
+            decay_factor: 1.00004,
+            min_lr: .000001
+        }
+    },
+    extensions: [
+        !obj:pylearn2.training_algorithms.learning_rule.MomentumAdjustor {
+            start: 1,
+            saturate: 250,
+            final_momentum: .7
+        }
+    ],
+    save_path: "%(save_path)s/dae_mlp.pkl",
+    save_freq: 1
+}
+

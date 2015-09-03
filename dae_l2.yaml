@@ -1,0 +1,48 @@
+!obj:pylearn2.train.Train {
+    dataset: &train !obj:pylearn2.datasets.transformer_dataset.TransformerDataset {
+        raw: !obj:pylearn2.datasets.csv_dataset.CSVDataset  {
+            path: 'Seperate action RLDataBlk noRw.csv', #'RLData.csv',
+            task: 'regression',
+            expect_labels: False,
+            expect_headers: False,
+            delimiter: ',',
+            start: 0,
+            stop: %(train_stop)i
+        },
+        transformer: !pkl: "%(save_path)s/dae_l1.pkl"
+    },
+    model: !obj:pylearn2.models.autoencoder.Autoencoder { #.DenoisingAutoencoder {
+        nvis : %(nvis)i,
+        nhid : %(nhid)i,
+        irange : 0.05,
+        #corruptor: !obj:pylearn2.corruption.BinomialCorruptor {
+        #    corruption_level: .3,
+        #},
+        act_enc: "softplus", # "tanh",
+        act_dec: null, #"tanh",    # Linear activation on the decoder side.
+    },
+    algorithm: !obj:pylearn2.training_algorithms.bgd.BGD {
+        batch_size : %(batch_size)i,
+        conjugate: 1,
+        reset_conjugate: 0,
+        reset_alpha: 0,
+        updates_per_batch: 10,
+        monitoring_batches : %(monitoring_batches)i,
+        monitoring_dataset : *train,
+        cost: !obj:pylearn2.costs.cost.SumOfCosts {
+            costs: [
+              !obj:pylearn2.costs.autoencoder.MeanSquaredReconstructionError {},
+              !obj:pylearn2.costs.autoencoder.SparseActivation {
+                  coeff: 0.5,
+                  p: 0.2,
+              },
+            ],
+        },
+        termination_criterion : !obj:pylearn2.termination_criteria.MonitorBased {
+            prop_decrease : 0.01,
+            N : 10,
+        },
+    },
+    save_path: "%(save_path)s/dae_l2.pkl",
+    save_freq: 1
+}

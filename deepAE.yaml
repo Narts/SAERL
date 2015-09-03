@@ -1,0 +1,28 @@
+!obj:pylearn2.train.Train {
+    dataset: &train !obj:pylearn2.datasets.csv_dataset.CSVDataset {
+        path: 'Seperate action RLDataBlk noRw.csv', #'The seperate action RLData.csv', #'The test 5th Column RLData.csv', #'RLData.csv',
+        task: 'regression',
+        expect_labels: False,
+        expect_headers: False,
+        delimiter: ',',
+        start: 0,
+        stop: %(train_stop)i
+    },
+
+    model: !obj:pylearn2.models.autoencoder.DeepComposedAutoencoder {
+        autoencoders: %(autoencoders)s
+    },
+
+    algorithm: !obj:pylearn2.training_algorithms.sgd.SGD {
+        learning_rate : 1e-4,
+        batch_size : %(batch_size)i,
+        monitoring_batches : %(monitoring_batches)i,
+        monitoring_dataset : *train,
+        cost : !obj:pylearn2.costs.autoencoder.MeanSquaredReconstructionError {},
+        termination_criterion : !obj:pylearn2.termination_criteria.EpochCounter {
+            max_epochs: %(max_epochs)i,
+        },
+    },
+    save_path: "%(save_path)s/deepAE.pkl",
+    save_freq: 1
+}

@@ -1,0 +1,79 @@
+DataSet: 4 separate actions, 2 old positions, 2 new positions, blk noShow, reward noShow 
+
+Input: 8 -- Hidden: 20/tanh/null -- Hidden: 8/tanh/null
+DAE:
+	Epochs seen: 50
+	Batches seen: 250000
+	Examples seen: 2500000
+	learning_rate: 0.001
+	objective: 0.016085539314
+	total_seconds_last_epoch: 1.739077
+	training_seconds_this_epoch: 1.675094
+L2:
+	Epochs seen: 50
+	Batches seen: 250000
+	Examples seen: 2500000
+	learning_rate: 0.001
+	objective: 0.031579519998
+	total_seconds_last_epoch: 1.729508
+	training_seconds_this_epoch: 1.614149
+L1:
+	Epochs seen: 50
+	Batches seen: 250000
+	Examples seen: 2500000
+	learning_rate: 0.001
+	objective: 0.0144787857878
+	total_seconds_last_epoch: 1.459598
+	training_seconds_this_epoch: 1.390857
+
+Input: 8 -- Hidden: 20/softplus/null -- Hidden: 8/softplus/null
+DAE:
+	Epochs seen: 50
+	Batches seen: 250000
+	Examples seen: 2500000
+	learning_rate: 0.001
+	objective: 0.0116064171506
+	total_seconds_last_epoch: 1.900763
+	training_seconds_this_epoch: 1.769233
+L2:
+	Epochs seen: 50
+	Batches seen: 250000
+	Examples seen: 2500000
+	learning_rate: 0.001
+	objective: 0.0254652929514
+	total_seconds_last_epoch: 1.947625
+	training_seconds_this_epoch: 1.850565
+L1:
+	Epochs seen: 50
+	Batches seen: 250000
+	Examples seen: 2500000
+	learning_rate: 0.001
+	objective: 0.0159549318562
+	total_seconds_last_epoch: 1.684175
+	training_seconds_this_epoch: 1.578741
+
+Input: 8 -- Hidden: 30/softplus/null -- Hidden: 8/softplus/null
+DAE:
+	Epochs seen: 50
+	Batches seen: 250000
+	Examples seen: 2500000
+	learning_rate: 0.001
+	objective: 0.0122032709635
+	total_seconds_last_epoch: 1.881999
+	training_seconds_this_epoch: 1.747553
+L2:
+	Epochs seen: 50
+	Batches seen: 250000
+	Examples seen: 2500000
+	learning_rate: 0.001
+	objective: 0.254239288753
+	total_seconds_last_epoch: 2.195749
+	training_seconds_this_epoch: 1.964237
+L1:
+	Epochs seen: 50
+	Batches seen: 250000
+	Examples seen: 2500000
+	learning_rate: 0.001
+	objective: 0.0144519467601
+	total_seconds_last_epoch: 1.791715
+	training_seconds_this_epoch: 1.76422
