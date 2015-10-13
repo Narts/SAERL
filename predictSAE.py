@@ -18,7 +18,7 @@ l1EncodeFunction = theano.function([l1Input], l1Encode)
 l1DecodeFunction = theano.function([l1Encode], l1Decode)
 
 #Seperate action RLDataNoBlk 8Col noReward
-RLData = genfromtxt('Seperate action RLDataBlk noRw.csv', delimiter=',', skip_header=0)
+RLData = genfromtxt('/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/trainingData/Seperate action RLDataBlk noRw.csv', delimiter=',', skip_header=0)
 shapeRLData = RLData.shape
 print RLData
 #"""
@@ -67,13 +67,13 @@ l1encodeFlt = numpy.around(l1encode, decimals=2)
 print "l1 encode"
 print l1encodeFlt
 
-numpy.savetxt("moreDataDAE 7-7 8ColNoRwBLK softPluslinear l1encode.csv", l1encode, fmt="%10.2f", delimiter=",")
+numpy.savetxt("/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/resultData/moreDataDAE 7-6-5 8ColNoRwBLK softPluslinear l1encode.csv", l1encode, fmt="%10.2f", delimiter=",")
 #numpy.savetxt("moreDataDAE 7-6 8ColNoRwBLK softPluslinear l1encodeFlt0.csv", l1encode, fmt="%10.0f", delimiter=",")
 
 l11decode = l1DecodeFunction(l1encode)
 l11decodeFlt = numpy.around(l11decode, decimals=2)
 
-numpy.savetxt("moreDataDAE 7-7 8ColNoRwBLK softPluslinear l11decode.csv", l11decode, fmt="%10.2f", delimiter=",")
+numpy.savetxt("/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/resultData/moreDataDAE 7-6-5 8ColNoRwBLK softPluslinear l11decode.csv", l11decode, fmt="%10.2f", delimiter=",")
 
 print "l11 decode"
 print l11decodeFlt
@@ -115,47 +115,84 @@ print l2SepdecodeFlt
 
 #"""
 #layer 2
-l2_path = 'dae_l2.pkl'
+l2_path = 'dae_l2_best_bck.pkl'
 l2 = serial.load(l2_path)
 print l2
 
 l2Input = l2.get_input_space().make_theano_batch()
 l2Encode = l2.encode(l2Input)
+l2Decode = l2.decode(l2Encode)
 l2EncodeFunction = theano.function([l2Input], l2Encode)
+l2DecodeFunction = theano.function([l2Encode], l2Decode)
 
 l2encode = l2EncodeFunction(l1encode)
 l2encodeFlt = numpy.around(l2encode, decimals=2)
 
 print "l2 encode"
 print l2encodeFlt
-numpy.savetxt("moreDataDAE 7-7 8ColNoRwBLK softPluslinear l2encode.csv", l2encode, fmt="%10.2f", delimiter=",")
+numpy.savetxt("/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/resultData/moreDataDAE 7-6-5 8ColNoRwBLK softPluslinear l2encode.csv", l2encode, fmt="%10.2f", delimiter=",")
 #for item in l2encode:
     #print item
 
 
 #decode
-l2Decode = l2.decode(l2Encode)
-l2DecodeFunction = theano.function([l2Encode], l2Decode)
-
 l2decode = l2DecodeFunction(l2encode)
 l2decodeFlt = numpy.around(l2decode, decimals=2)
 
 print "l2 decode"
 print l2decodeFlt
-numpy.savetxt("moreDataDAE 7-7 8ColNoRwBLK softPluslinear l2decode.csv", l2decode, fmt="%10.2f", delimiter=",")
+numpy.savetxt("/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/resultData/moreDataDAE 7-6-5 8ColNoRwBLK softPluslinear l22decode.csv", l2decode, fmt="%10.2f", delimiter=",")
 
-#active one hidden node each time
-#shapeL2encode = l2encode.shape
-#print shapeL2encode
-#print zerosArray.shape
 
 l1decode = l1DecodeFunction(l2decode)
 l1decodeFlt = numpy.around(l1decode, decimals=2)
 print "l1 decode"
 print l1decodeFlt
-numpy.savetxt("moreDataDAE 7-7 8ColNoRwBLK softPluslinear l1decode.csv", l1decode, fmt="%10.2f", delimiter=",")
+numpy.savetxt("/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/resultData/moreDataDAE 7-6-5 8ColNoRwBLK softPluslinear l21decode.csv", l1decode, fmt="%10.2f", delimiter=",")
 
 #"""
+
+#layer 3
+l3_path = 'dae_l3.pkl'
+l3 = serial.load(l3_path)
+print l3
+
+l3Input = l3.get_input_space().make_theano_batch()
+l3Encode = l3.encode(l3Input)
+l3Decode = l3.decode(l3Encode)
+l3EncodeFunction = theano.function([l3Input], l3Encode)
+l3DecodeFunction = theano.function([l3Encode], l3Decode)
+
+l3encode = l3EncodeFunction(l2encode)
+l3encodeFlt = numpy.around(l3encode, decimals=2)
+
+print "l3 encode"
+print l3encodeFlt
+numpy.savetxt("/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/resultData/moreDataDAE 7-6-5 8ColNoRwBLK softPluslinear l3encode.csv", l3encode, fmt="%10.2f", delimiter=",")
+
+#decode
+
+l3decode = l3DecodeFunction(l3encode)
+l3decodeFlt = numpy.around(l3decode, decimals=2)
+print "l3 decode"
+print l3decodeFlt
+numpy.savetxt("/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/resultData/moreDataDAE 7-6-5 8ColNoRwBLK softPluslinear l3decode.csv", l3decode, fmt="%10.2f", delimiter=",")
+
+
+l2decode = l2DecodeFunction(l3decode)
+l2decodeFlt = numpy.around(l2decode, decimals=2)
+print "l2 decode"
+print l2decodeFlt
+numpy.savetxt("/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/resultData/moreDataDAE 7-6-5 8ColNoRwBLK softPluslinear l2decode.csv", l2decode, fmt="%10.2f", delimiter=",")
+
+
+l1decode = l1DecodeFunction(l2decode)
+l1decodeFlt = numpy.around(l1decode, decimals=2)
+print "l1 decode"
+print l1decodeFlt
+numpy.savetxt("/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/resultData/moreDataDAE 7-6-5 8ColNoRwBLK softPluslinear l1decode.csv", l1decode, fmt="%10.2f", delimiter=",")
+
+
 """
 #activate one hidden node
 for i in range(0, 4):

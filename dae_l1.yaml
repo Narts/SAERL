@@ -1,6 +1,6 @@
 !obj:pylearn2.train.Train {
     dataset: &train !obj:pylearn2.datasets.csv_dataset.CSVDataset {
-        path: 'Seperate action RLDataBlk noRw.csv', #'The seperate action RLData.csv', #'The test 5th Column RLData.csv', #'RLData.csv',
+        path: '/Users/shengtaoran/Desktop/pylearn2Test/stackedAutoencoderRL/Data/trainingData/Seperate action RLDataBlk noRw.csv', #'The seperate action RLData.csv', #'The test 5th Column RLData.csv', #'RLData.csv',
         task: 'regression',
         expect_labels: False,
         expect_headers: False,

@@ -47,16 +47,16 @@ layer1_yaml = layer1_yaml % (hyper_params_l1)
 ######### layer 2
 layer2_yaml = open('dae_l2.yaml', 'r').read()
 hyper_params_l2 = {'train_stop': 500000,
-                   'batch_size': 500000,
+                   'batch_size': 20,
                    'monitoring_batches': 5,
                    'nvis': hyper_params_l1['nhid'],
-                   'nhid': 14,  # 20,  # 6,  # 15,
+                   'nhid': 6,  # 20, # 15,
                    'save_path': '.'}
 layer2_yaml = layer2_yaml % (hyper_params_l2)
-print layer2_yaml
+#print layer2_yaml
 
-train = yaml_parse.load(layer2_yaml)
-train.main_loop()
+#train = yaml_parse.load(layer2_yaml)
+#train.main_loop()
 #"""
 
 """
@@ -74,15 +74,15 @@ print layer2Sep_yaml
 train = yaml_parse.load(layer2Sep_yaml)
 train.main_loop()
 #"""
-"""
+#"""
 ######### layer 3
 layer3_yaml = open('dae_l3.yaml', 'r').read()
-hyper_params_l3 = {'train_stop': 50000,
-                   'batch_size': 8,
+hyper_params_l3 = {'train_stop': 500000,
+                   'batch_size': 10,
                    'monitoring_batches': 5,
                    'nvis': hyper_params_l2['nhid'],
-                   'nhid': 8,  # 6,  # 15,
-                   'max_epochs': 20,
+                   'nhid': 5,  # 6,  # 15,
+                   'max_epochs': 50,
                    'save_path': '.'}
 layer3_yaml = layer3_yaml % (hyper_params_l3)
 print layer3_yaml
